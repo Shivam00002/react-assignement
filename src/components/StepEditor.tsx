@@ -94,7 +94,7 @@ const StepEditor: React.FC = () => {
               ...step,
               parts: step.parts.map((part, j) =>
                 j === editingPartIndex
-                  ? { ...part, text: variable.name, type: 'variable' } // Set type to 'variable'
+                  ? { ...part, text: variable.name } // Directly update the part text
                   : part
               ),
             }
@@ -136,9 +136,10 @@ const StepEditor: React.FC = () => {
           : step
       );
       setSteps(updatedSteps);
-      //setEditingStepIndex(null);
+     //setEditingStepIndex(null);
       //setEditingPartIndex(null);
-      //setEditText('');
+     // setEditText('');
+
     }
   };
 
@@ -156,16 +157,8 @@ const StepEditor: React.FC = () => {
       variable.name.toLowerCase().includes(searchInput.toLowerCase())
     )
     .sort((a, b) => {
-      const aIncludes = a.name
-        .toLowerCase()
-        .startsWith(searchInput.toLowerCase())
-        ? -1
-        : 1;
-      const bIncludes = b.name
-        .toLowerCase()
-        .startsWith(searchInput.toLowerCase())
-        ? -1
-        : 1;
+      const aIncludes = a.name.toLowerCase().startsWith(searchInput.toLowerCase()) ? -1 : 1;
+      const bIncludes = b.name.toLowerCase().startsWith(searchInput.toLowerCase()) ? -1 : 1;
       return aIncludes - bIncludes;
     });
 
@@ -180,59 +173,57 @@ const StepEditor: React.FC = () => {
         />
       </div>
       {steps.map((step, stepIndex) => (
-        <div
-          key={step.id}
-          className="flex   items-center mb-2 animate-smooth-bounce"
+  <div
+    key={step.id}
+    className="flex   items-center mb-2 animate-smooth-bounce"
+  >
+    <div className="bg-green-200 rounded-full p-2 mr-2">@</div>
+    <div className="flex-grow p-2 border border-gray-300 rounded-lg flex items-center">
+      {step.parts.map((part, partIndex) => (
+        <span
+          key={partIndex}
+          className={`mx-1 ${
+            part.type === 'variable'
+              ? 'bg-purple-200'
+              : part.type === 'editable'
+              ? editingStepIndex === stepIndex &&
+                editingPartIndex === partIndex
+                ? 'text-orange-500'
+                : part.style === 'edited'
+                ? 'text-green-500'
+                : 'text-orange-500 cursor-pointer'
+              : ''
+          }`}
+          onClick={() =>
+            part.type === 'editable' && handlePartClick(stepIndex, partIndex)
+          }
+          onDoubleClick={() =>
+            part.type === 'editable' &&
+            handlePartDoubleClick(stepIndex, partIndex)
+          }
         >
-          <div className="bg-green-200 rounded-full p-2 mr-2">@</div>
-          <div className="flex-grow p-2 border border-gray-300 rounded-lg flex items-center">
-            {step.parts.map((part, partIndex) => (
-              <span
-                key={partIndex}
-                className={`mx-1 ${
-                  part.type === 'variable'
-                    ? 'text-purple-500' // Apply purple color for variables
-                    : part.type === 'editable'
-                    ? editingStepIndex === stepIndex &&
-                      editingPartIndex === partIndex
-                      ? 'text-orange-500'
-                      : part.style === 'edited'
-                      ? 'text-green-500'
-                      : 'text-orange-500 cursor-pointer'
-                    : ''
-                }`}
-                onClick={() =>
-                  part.type === 'editable' && handlePartClick(stepIndex, partIndex)
-                }
-                onDoubleClick={() =>
-                  part.type === 'editable' &&
-                  handlePartDoubleClick(stepIndex, partIndex)
-                }
-              >
-                {editingStepIndex === stepIndex &&
-                editingPartIndex === partIndex ? (
-                  <input
-                    type="text"
-                    value={editText}
-                    onChange={handleEditChange}
-                    onBlur={handleEditSubmit}
-                    className="text-orange-500"
-                    autoFocus
-                  />
-                ) : (
-                  part.text
-                )}
-              </span>
-            ))}
-          </div>
-          <button
-            onClick={() => removeItem(stepIndex)}
-            className="ml-2 text-red-500"
-          >
-            &times;
-          </button>
-        </div>
+          {editingStepIndex === stepIndex &&
+          editingPartIndex === partIndex ? (
+            <input
+              type="text"
+              value={editText}
+              onChange={handleEditChange}
+              onBlur={handleEditSubmit}
+              className="text-orange-500"
+              autoFocus
+            />
+          ) : (
+            part.text
+          )}
+        </span>
       ))}
+    </div>
+    <button onClick={() => removeItem(stepIndex)} className="ml-2 text-red-500">
+      &times;
+    </button>
+  </div>
+))}
+
 
       {showSuggestions && (
         <div className="mt-2 bg-white border border-gray-300 rounded-lg shadow-lg">
