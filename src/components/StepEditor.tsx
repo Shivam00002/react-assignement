@@ -100,6 +100,7 @@ const StepEditor: React.FC = () => {
       setShowGlobalVariables(false);
       setEditingStepIndex(null);
       setEditingPartIndex(null);
+      setEditText(''); // Clear edit text when a global variable is selected
     }
   };
 
@@ -131,9 +132,10 @@ const StepEditor: React.FC = () => {
           : step
       );
       setSteps(updatedSteps);
-      setEditingStepIndex(null);
-      setEditingPartIndex(null);
-      setEditText('');
+     //setEditingStepIndex(null);
+      //setEditingPartIndex(null);
+     // setEditText('');
+
     }
   };
 
