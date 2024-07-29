@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import 'animate.css';
 
 interface Step {
   id: number;
@@ -28,9 +29,12 @@ const StepEditor: React.FC = () => {
 
   const globalVariables: GlobalVariable[] = [
     { id: 1, name: 'test' },
-    { id: 2, name: 'test67' },
-    { id: 3, name: 'example' },
-    { id: 4, name: 'sample' },
+    { id: 2, name: 'mahadev' },
+    { id: 3, name: 'shivam' },
+    { id: 4, name: 'dubey' },
+    { id: 5, name: 'front-end' },
+    { id: 6, name: 'back-end' },
+    { id: 7, name: 'Mern-Stack' },
   ];
 
   useEffect(() => {
@@ -168,59 +172,58 @@ const StepEditor: React.FC = () => {
           onClick={handleStepClick}
         />
       </div>
-
       {steps.map((step, stepIndex) => (
-        <div key={step.id} className="flex items-center mb-2">
-          <div className="bg-green-200 rounded-full p-2 mr-2">@</div>
-          <div className="flex-grow p-2 border border-gray-300 rounded-lg flex items-center">
-            {step.parts.map((part, partIndex) => (
-              <span
-                key={partIndex}
-                className={`mx-1 ${
-                  part.type === 'variable'
-                    ? 'bg-purple-200'
-                    : part.type === 'editable'
-                    ? editingStepIndex === stepIndex &&
-                      editingPartIndex === partIndex
-                      ? 'text-orange-500'
-                      : part.style === 'edited'
-                      ? 'text-green-500'
-                      : 'text-orange-500 cursor-pointer'
-                    : ''
-                }`}
-                onClick={() =>
-                  part.type === 'editable' &&
-                  handlePartClick(stepIndex, partIndex)
-                }
-                onDoubleClick={() =>
-                  part.type === 'editable' &&
-                  handlePartDoubleClick(stepIndex, partIndex)
-                }
-              >
-                {editingStepIndex === stepIndex &&
-                editingPartIndex === partIndex ? (
-                  <input
-                    type="text"
-                    value={editText}
-                    onChange={handleEditChange}
-                    onBlur={handleEditSubmit}
-                    className="text-orange-500"
-                    autoFocus
-                  />
-                ) : (
-                  part.text
-                )}
-              </span>
-            ))}
-          </div>
-          <button
-            onClick={() => removeItem(stepIndex)}
-            className="ml-2 text-red-500"
-          >
-            &times;
-          </button>
-        </div>
+  <div
+    key={step.id}
+    className="flex   items-center mb-2 animate-smooth-bounce"
+  >
+    <div className="bg-green-200 rounded-full p-2 mr-2">@</div>
+    <div className="flex-grow p-2 border border-gray-300 rounded-lg flex items-center">
+      {step.parts.map((part, partIndex) => (
+        <span
+          key={partIndex}
+          className={`mx-1 ${
+            part.type === 'variable'
+              ? 'bg-purple-200'
+              : part.type === 'editable'
+              ? editingStepIndex === stepIndex &&
+                editingPartIndex === partIndex
+                ? 'text-orange-500'
+                : part.style === 'edited'
+                ? 'text-green-500'
+                : 'text-orange-500 cursor-pointer'
+              : ''
+          }`}
+          onClick={() =>
+            part.type === 'editable' && handlePartClick(stepIndex, partIndex)
+          }
+          onDoubleClick={() =>
+            part.type === 'editable' &&
+            handlePartDoubleClick(stepIndex, partIndex)
+          }
+        >
+          {editingStepIndex === stepIndex &&
+          editingPartIndex === partIndex ? (
+            <input
+              type="text"
+              value={editText}
+              onChange={handleEditChange}
+              onBlur={handleEditSubmit}
+              className="text-orange-500"
+              autoFocus
+            />
+          ) : (
+            part.text
+          )}
+        </span>
       ))}
+    </div>
+    <button onClick={() => removeItem(stepIndex)} className="ml-2 text-red-500">
+      &times;
+    </button>
+  </div>
+))}
+
 
       {showSuggestions && (
         <div className="mt-2 bg-white border border-gray-300 rounded-lg shadow-lg">
