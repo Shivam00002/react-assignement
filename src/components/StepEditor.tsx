@@ -14,6 +14,7 @@ interface Step {
   }[];
 }
 
+
 interface GlobalVariable {
   id: number;
   name: string;
