@@ -5,6 +5,7 @@ interface SuggestionsProps {
   handleStepSelect: (stepText: string) => void;
 }
 
+
 const Suggestions: React.FC<SuggestionsProps> = ({
   suggestedSteps,
   handleStepSelect,
