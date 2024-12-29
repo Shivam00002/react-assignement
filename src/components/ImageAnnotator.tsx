@@ -10,7 +10,6 @@ interface Rectangle {
 
 
 
-
 const ImageAnnotator: React.FC = () => {
   const [rectangles, setRectangles] = useState<Rectangle[]>([
     { id: 1, x: 50, y: 50, width: 100, height: 100 },
